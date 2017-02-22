@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
  * User: chenzhiwei
  * Date: 17/2/19
  * Time: 上午10:15
- * 生命游戏的方格
+ * 棋盘格子(生存空间)
  */
 @Slf4j
 @Data
@@ -20,23 +20,32 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Grid {
-    private int x;
-    private int y;
+    /**
+     * 横轴长度：x轴
+     */
+    private int horizontalAxisLength;
+    /**
+     * 纵轴长度：y轴
+     */
+    private int longitudinalAxisLength;
+    /**
+     * 表示棋盘格子(生存空间)的二维数组
+     */
     private Cell[][] allCellArray;
 
     /**
      * 构造函数：其中根据x,y初始化allCellArray，转态固定
      *
-     * @param x
-     * @param y
-     * @param cellLifeStatus
+     * @param horizontalAxisLength：横轴长度
+     * @param longitudinalAxisLength：纵轴长度
+     * @param cellLifeStatus：细胞的生命状态
      */
-    public Grid(int x, int y, int cellLifeStatus) {
-        this.x = x;
-        this.y = y;
-        this.allCellArray = new Cell[x][y];
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+    public Grid(int horizontalAxisLength, int longitudinalAxisLength, int cellLifeStatus) {
+        this.horizontalAxisLength = horizontalAxisLength;
+        this.longitudinalAxisLength = longitudinalAxisLength;
+        this.allCellArray = new Cell[horizontalAxisLength][longitudinalAxisLength];
+        for (int i = 0; i < horizontalAxisLength; i++) {
+            for (int j = 0; j < longitudinalAxisLength; j++) {
                 this.allCellArray[i][j] = new Cell(cellLifeStatus, 0);
             }
         }
@@ -45,15 +54,15 @@ public class Grid {
     /**
      * 构造函数：其中根据x,y初始化allCellArray,转态随机
      *
-     * @param x
-     * @param y
+     * @param horizontalAxisLength：横轴长度
+     * @param longitudinalAxisLength：纵轴长度
      */
-    public Grid(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.allCellArray = new Cell[x][y];
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+    public Grid(int horizontalAxisLength, int longitudinalAxisLength) {
+        this.horizontalAxisLength = horizontalAxisLength;
+        this.longitudinalAxisLength = longitudinalAxisLength;
+        this.allCellArray = new Cell[horizontalAxisLength][longitudinalAxisLength];
+        for (int i = 0; i < horizontalAxisLength; i++) {
+            for (int j = 0; j < longitudinalAxisLength; j++) {
                 int cellLifeStatus = Math.random() < 0.5 ? CellLifeStatus.DEAD : CellLifeStatus.ALIVE;
                 this.allCellArray[i][j] = new Cell(cellLifeStatus, 0);
             }
@@ -61,17 +70,17 @@ public class Grid {
     }
 
     public void updateCellLifeStatus() {
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+        for (int i = 0; i < horizontalAxisLength; i++) {
+            for (int j = 0; j < longitudinalAxisLength; j++) {
                 Cell cell = allCellArray[i][j];
                 int aliveNumber = cell.getCurrentNeighborAliveNumber(this, i, j);
-                cell.setAliveNumber(aliveNumber);
+                cell.setNeighborAliveNumber(aliveNumber);
             }
         }
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+        for (int i = 0; i < horizontalAxisLength; i++) {
+            for (int j = 0; j < longitudinalAxisLength; j++) {
                 Cell cell = allCellArray[i][j];
-                int nextCellLifeStatus = cell.getNextCellLifeStatusByTableMethod(cell.getStatus(), cell.getAliveNumber());
+                int nextCellLifeStatus = cell.getNextCellLifeStatusByTableMethod(cell.getStatus(), cell.getNeighborAliveNumber());
                 cell.setStatus(nextCellLifeStatus);
             }
         }
@@ -80,10 +89,10 @@ public class Grid {
     /**
      * 跟新指定周期次数
      *
-     * @param cycleumber
+     * @param cycleNumber：循环次数
      */
-    public void updateCellLifeStatusIsCycleNumber(int cycleumber) {
-        for (int i = 0; i < cycleumber; i++) {
+    public void updateCellLifeStatusIsCycleNumber(int cycleNumber) {
+        for (int i = 0; i < cycleNumber; i++) {
             updateCellLifeStatus();
             log.info(this.toString());
         }
@@ -92,8 +101,8 @@ public class Grid {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("\n");
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+        for (int i = 0; i < horizontalAxisLength; i++) {
+            for (int j = 0; j < longitudinalAxisLength; j++) {
                 stringBuilder.append(allCellArray[i][j].getStatus()).append(" ");
             }
             stringBuilder.append("\n");
