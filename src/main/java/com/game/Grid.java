@@ -34,11 +34,11 @@ public class Grid {
     private Cell[][] allCellArray;
 
     /**
-     * 构造函数：其中根据x,y初始化allCellArray，转态固定
+     * 构造函数：其中根据horizontalAxisLength,longitudinalAxisLength初始化allCellArray，转态固定
      *
-     * @param horizontalAxisLength：横轴长度
-     * @param longitudinalAxisLength：纵轴长度
-     * @param cellLifeStatus：细胞的生命状态
+     * @param horizontalAxisLength
+     * @param longitudinalAxisLength
+     * @param cellLifeStatus
      */
     public Grid(int horizontalAxisLength, int longitudinalAxisLength, int cellLifeStatus) {
         this.horizontalAxisLength = horizontalAxisLength;
@@ -52,10 +52,10 @@ public class Grid {
     }
 
     /**
-     * 构造函数：其中根据x,y初始化allCellArray,转态随机
+     * 构造函数：其中根据horizontalAxisLength,longitudinalAxisLength初始化allCellArray,转态随机
      *
-     * @param horizontalAxisLength：横轴长度
-     * @param longitudinalAxisLength：纵轴长度
+     * @param horizontalAxisLength
+     * @param longitudinalAxisLength
      */
     public Grid(int horizontalAxisLength, int longitudinalAxisLength) {
         this.horizontalAxisLength = horizontalAxisLength;
@@ -89,7 +89,7 @@ public class Grid {
     /**
      * 跟新指定周期次数
      *
-     * @param cycleNumber：循环次数
+     * @param cycleNumber
      */
     public void updateCellLifeStatusIsCycleNumber(int cycleNumber) {
         for (int i = 0; i < cycleNumber; i++) {

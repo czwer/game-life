@@ -94,9 +94,9 @@ public class Cell {
      * （x，3，1)
      * （x，>=4，0）
      * ===========================================
-     * @param currentCellLifeStatus：当前细胞状态
-     * @param neighborAliveNumber：邻居活的数量
-     * @return ：下一次生命周期的存活状态
+     * @param currentCellLifeStatus
+     * @param neighborAliveNumber
+     * @return
      */
     public int getNextCellLifeStatusByTableMethod(int currentCellLifeStatus, int neighborAliveNumber) {
         int[] allCellLifeStatus = new int[]{0, 0, currentCellLifeStatus, 1, 0, 0, 0, 0, 0};
@@ -109,9 +109,9 @@ public class Cell {
      * b).“正常”：任何活细胞如果活邻居为2个或3个，则继续活。
      * c).“人口过多”：任何活细胞如果活邻居大于3个，则死掉。
      * d).“繁殖”：任何死细胞如果活邻居正好是3个，则活过来。
-     * @param currentCellLifeStatus：当前细胞状态
-     * @param neighborAliveNumber：邻居活的数量
-     * @return ：下一次生命周期的存活状态
+     * @param currentCellLifeStatus
+     * @param neighborAliveNumber
+     * @return
      */
     public int getNextCellLifeStatusByConditionJudgment(int currentCellLifeStatus,int neighborAliveNumber){
         //只关心活的情况即可
