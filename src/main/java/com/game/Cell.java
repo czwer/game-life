@@ -88,11 +88,11 @@ public class Cell {
      * （1，3，1），（0，3，1）
      * （1，>=4，0），（0，!=3，0）
      * =============简化同一行的表达式===============
-     * （horizontalAxisLength，0，0）
-     * （horizontalAxisLength，1，0）
-     * （horizontalAxisLength，2，horizontalAxisLength）
-     * （horizontalAxisLength，3，1)
-     * （horizontalAxisLength，>=4，0）
+     * （x，0，0）
+     * （x，1，0）
+     * （x，2，x）
+     * （x，3，1)
+     * （x，>=4，0）
      * ===========================================
      * @param currentCellLifeStatus：当前细胞状态
      * @param neighborAliveNumber：邻居活的数量
