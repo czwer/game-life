@@ -29,16 +29,16 @@ public class Cell {
     private int neighborAliveNumber;
 
     /**
-     * 获取当前活着的邻居数量
+     * 获取当前邻居细胞活着的数量
      *
      * @param grid：棋盘格子（生存空间）
      * @param currentX：坐标横轴
      * @param currentY：坐标纵轴
-     * @return
+     * @return ：当前邻居细胞活着的数量
      */
     public int getCurrentNeighborAliveNumber(Grid grid, int currentX, int currentY) {
         int[][] allNeighborArray = builderAllNeighborArray(currentX, currentY);
-        int currentAliveNumber = 0;
+        int currentNeighborAliveNumber = 0;
         for (int[] intArray : allNeighborArray) {
             int x = intArray[0];
             int y = intArray[1];
@@ -47,10 +47,10 @@ public class Cell {
             }
             int status = grid.getAllCellArray()[x][y].getStatus();
             if (status == CellLifeStatus.ALIVE) {
-                currentAliveNumber++;
+                currentNeighborAliveNumber++;
             }
         }
-        return currentAliveNumber;
+        return currentNeighborAliveNumber;
     }
 
     private int[][] builderAllNeighborArray(int currentX, int currentY) {
@@ -66,7 +66,7 @@ public class Cell {
     }
 
     /**
-     * 获得下一次周期的生命状态---使用查表法进行判断
+     * 获得下一次生命周期的存活状态---使用查表法进行判断
      * a).“人口过少”：任何活细胞如果活邻居少于2个，则死掉。
      * b).“正常”：任何活细胞如果活邻居为2个或3个，则继续活。
      * c).“人口过多”：任何活细胞如果活邻居大于3个，则死掉。
@@ -94,12 +94,12 @@ public class Cell {
      * （horizontalAxisLength，3，1)
      * （horizontalAxisLength，>=4，0）
      * ===========================================
-     * @param currentStatus：当前细胞状态
+     * @param currentCellLifeStatus：当前细胞状态
      * @param neighborAliveNumber：邻居活的数量
-     * @return
+     * @return ：下一次生命周期的存活状态
      */
-    public int getNextCellLifeStatusByTableMethod(int currentStatus, int neighborAliveNumber) {
-        int[] allCellLifeStatus = new int[]{0, 0, currentStatus, 1, 0, 0, 0, 0, 0};
+    public int getNextCellLifeStatusByTableMethod(int currentCellLifeStatus, int neighborAliveNumber) {
+        int[] allCellLifeStatus = new int[]{0, 0, currentCellLifeStatus, 1, 0, 0, 0, 0, 0};
         return allCellLifeStatus[neighborAliveNumber];
     }
 
@@ -109,14 +109,14 @@ public class Cell {
      * b).“正常”：任何活细胞如果活邻居为2个或3个，则继续活。
      * c).“人口过多”：任何活细胞如果活邻居大于3个，则死掉。
      * d).“繁殖”：任何死细胞如果活邻居正好是3个，则活过来。
-     * @param currentStatus：当前细胞状态
+     * @param currentCellLifeStatus：当前细胞状态
      * @param neighborAliveNumber：邻居活的数量
-     * @return
+     * @return ：下一次生命周期的存活状态
      */
-    public int getNextCellLifeStatusByConditionJudgment(int currentStatus,int neighborAliveNumber){
+    public int getNextCellLifeStatusByConditionJudgment(int currentCellLifeStatus,int neighborAliveNumber){
         //只关心活的情况即可
-        if((currentStatus== CellLifeStatus.ALIVE && (neighborAliveNumber ==2 || neighborAliveNumber ==3)) ||
-                (currentStatus==CellLifeStatus.DEAD && neighborAliveNumber ==3)){
+        if((currentCellLifeStatus== CellLifeStatus.ALIVE && (neighborAliveNumber ==2 || neighborAliveNumber ==3)) ||
+                (currentCellLifeStatus==CellLifeStatus.DEAD && neighborAliveNumber ==3)){
             return CellLifeStatus.ALIVE;
         }
         return CellLifeStatus.DEAD;
